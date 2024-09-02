@@ -7,4 +7,4 @@ STATION=$1
 OUT_DIR="$(pwd)/station_data/"
 STATION_SERVER="https://data.alclimate.com/stemmnet/stations/$STATION.csv"
 
-wget $STATION_SERVER -O $OUT_DIR$STATION.csv 
+curl $STATION_SERVER > $OUT_DIR$STATION.csv 
