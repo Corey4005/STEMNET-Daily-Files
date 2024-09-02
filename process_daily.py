@@ -67,7 +67,7 @@ for fn in os.listdir(station_data_dir):
             # 3. sort the list of timestamps along with the data
             if has_data and all_columns_available: #make sure that we actually got data in the file and the column for time exists
                 print(f'Processing {station} Daily Files')
-                sorted_data = sorted(data, key=lambda x: x['time'], reverse=True)
+                sorted_data = sorted(data, key=lambda x: x['time'], reverse=False)
                 #go through the sorted data and check each timestamp for greater than or less than 10 character timestamp. Remove an observation that violates.
                 length_bad_time_data = [record['time'] for record in sorted_data if len(str(record['time']))!=10]
                 #get the bad data that has any other character and not already in longbad_time_data
@@ -101,24 +101,35 @@ for fn in os.listdir(station_data_dir):
                     writer = csv.writer(obs) #collecting all into a list
                     lasttimestamp = [
                         ['station', 'time'],
-                        [station, cleaned_records[0]['time']] #we put the top record in the file, in the future we start here
+                        [station, cleaned_records[-1]['time']] #we put the last record in the file, in the future we start here
                                      ]
+                    
                     writer.writerows(lasttimestamp)
                     #in this case, we need to start from the first record we have, because a tracked file does not
-                    #exist yet. 
+                    #exist yet.
+                    first_processed_time = cleaned_records[0]['time']
                     last_processed_time = cleaned_records[-1]['time']
-                    records_to_create = [record for record in cleaned_records if record.get('time') > last_processed_time]
+                    records_to_create = [record for record in cleaned_records if record.get('time') > first_processed_time]
             
             elif os.path.exists(last_known_observations) and station not in only_fail_stations_name:        
             # 6. for each timestamp after a last known timestamp, do 7
                 with open(last_known_observations, 'r') as obs:
                     reader = csv.DictReader(obs) #collecting all into a list
                     for r in reader:
-                        last_processed_time = r['time']
+                        last_processed_time = r['time'] #getting the last known time 
                     
                     #get the index of the last processed time
                     records_to_create = [record for record in cleaned_records if record.get('time') > last_processed_time]
-    
+                
+                #overwriting the last known time
+                with open(last_known_observations, 'w') as obs:
+                    writer = csv.writer(obs) #collecting all into a list
+                    lasttimestamp = [
+                        ['station', 'time'],
+                        [station, cleaned_records[-1]['time']] #we put the last record in the file, in the future we start here
+                                     ]
+                    writer.writerows(lasttimestamp)
+                    
             # 7. check if a station folder exists and a year directory exists for that time stamp in the station folder.
             station_dir = os.getcwd() + f'/daily_files/{station}'
             bad_epoch_dictionary = {} #dictionary to store bad epoch values by station
