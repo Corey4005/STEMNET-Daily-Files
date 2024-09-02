@@ -62,9 +62,16 @@ def calculate_vwc(mm):
     parameters:
     mm - the voltage to convert to volumetric water content
     """
-    mm = float(mm)
-    vwc = 100.0 * ((4.824E-10*mm**3)-(2.28E-6*mm**2) + (3.898E-3 * mm) - 2.154)
-    return str("{:.3f}".format(vwc)) #three decimal vwc
+    if mm == "-999.99":
+        return mm
+    
+    else:
+        mm = float(mm)
+        vwc = 100.0 * ((4.824E-10*mm**3)-(2.28E-6*mm**2) + (3.898E-3 * mm) - 2.154)
+        if vwc > 0.0:
+            return str("{:.3f}".format(vwc)) #three decimal vwc
+        else:
+            return "-999.99" #cleans data that is below 0 volts
     
         
     
