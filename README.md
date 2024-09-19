@@ -40,5 +40,15 @@ The data can be pulled from [data.al.climate.com](https://data.alclimate.com/) a
 python main.py 
 ```
 
+# Crontab
+To set up a crontab so that new daily file observations can be added every 10 minutes, run the following commands: 
+```
+crontab -e
+```
+Place the following command in your crontab file:
+```
+*/10 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
+```
+
 # Project Dependencies
 This project is built with the Python 3.9.2 standard libraries. No special dependencies are needed. Just install python 3.9.2. You will also need wget 1.21 and curl 7.74 to run the shell scripts correctly. 
