@@ -2,7 +2,7 @@
 The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on the server on their own machines.
 
 # What is a daily file? 
-A daily file contains soil moisture observations in a standard format, where observations at particular sites are listed for a particular observation date. For example, here is the first 21 hours of a 24 hour daily file for 9-18-24 at the grant station.
+A daily file contains soil moisture observations in a standard format, where observations (volumetric soil moisture %, m0, m1, m2, m3, m4, temperature C, t0, t1, t2, t3, t4) are listed for particular for a 24 hour period. For example, here is the first  daily file for 9-18-24 at the Grant, Alabama station.
 ```
 id: SN003004
 name: Grant
@@ -33,40 +33,101 @@ Date, m0, m1, m2, m3, m4, t0, t1, t2, t3, t4, vpv, vb, vc
 2024-09-18 19:00:00+00:00, 17.229, 18.068, 18.513, 20.621, -999.99, 21.812, 21.500, 21.625, 23.000, -999.99, 2038.37, 1939.75, 3163.50
 2024-09-18 20:00:00+00:00, 17.225, 18.068, 18.517, 20.571, -999.99, 21.812, 21.625, 21.750, 23.250, -999.99, 2042.50, 1953.12, 3163.37
 2024-09-18 21:00:00+00:00, 17.208, 18.063, 18.513, 20.514, -999.99, 21.750, 21.687, 21.937, 23.687, -999.99, 2038.62, 1959.37, 3163.25
+2024-09-18 22:00:00+00:00, 17.204, 18.063, 18.517, 20.487, -999.99, 21.812, 21.812, 22.125, 23.562, -999.99, 2616.25, 1967.00, 3163.37
+2024-09-18 23:00:00+00:00, 17.196, 18.063, 18.505, 20.456, -999.99, 21.812, 21.875, 22.312, 23.312, -999.99, 2031.75, 1954.50, 3164.00
+```
+
+The server at [data.alclimate.com/stemmnet/stations/](https://data.alclimate.com/stemmnet/stations/) contains csv files that have all observations for the sensor period of record. This software breaks down that data into daily files so that it is easier to find data on a particular date. For example, here is the directory structure of all daily files produced by station SN003021 (Thomaston) for 2023. 
+
+```
+2023/
+├── 10
+│   ├── 27
+│   │   └── 20231027.txt
+│   ├── 28
+│   │   └── 20231028.txt
+│   ├── 29
+│   │   └── 20231029.txt
+│   ├── 30
+│   │   └── 20231030.txt
+│   └── 31
+│       └── 20231031.txt
+└── 11
+    ├── 01
+    │   └── 20231101.txt
+    ├── 02
+    │   └── 20231102.txt
+    ├── 03
+    │   └── 20231103.txt
+    ├── 04
+    │   └── 20231104.txt
+    ├── 05
+    │   └── 20231105.txt
+    ├── 06
+    │   └── 20231106.txt
+    ├── 07
+    │   └── 20231107.txt
+    ├── 08
+    │   └── 20231108.txt
+    ├── 09
+    │   └── 20231109.txt
+    ├── 10
+    │   └── 20231110.txt
+    ├── 11
+    │   └── 20231111.txt
+    ├── 12
+    │   └── 20231112.txt
+    ├── 13
+    │   └── 20231113.txt
+    ├── 14
+    │   └── 20231114.txt
+    ├── 15
+    │   └── 20231115.txt
+    ├── 16
+    │   └── 20231116.txt
+    ├── 17
+    │   └── 20231117.txt
+    ├── 18
+    │   └── 20231118.txt
+    ├── 19
+    │   └── 20231119.txt
+    ├── 20
+    │   └── 20231120.txt
+    ├── 21
+    │   └── 20231121.txt
+    ├── 22
+    │   └── 20231122.txt
+    ├── 23
+    │   └── 20231123.txt
+    ├── 24
+    │   └── 20231124.txt
+    ├── 25
+    │   └── 20231125.txt
+    └── 26
+        └── 20231126.txt
 ```
 
 # Directory set up 
 Below is a diagram of the directory structure for this software. Please set up a `logfiles` directory and a subfolder called `last_station_times` in the same directory as the python and shell scripts. You will also need to set up a `daily_files` and `station_data` directory for the software to function properly. 
 
+```
+.
 ├── README.md
-
 ├── daily_files
-
 ├── get_data.py
-
 ├── get_metadata.sh
-
 ├── get_station.sh
-
 ├── helper_functions.py
-
 ├── logfiles
-
 │   └── last_station_times
-
 ├── main.py
-
 ├── metadata
-
 ├── movelog.sh
-
 ├── process_daily.py
-
 ├── readme.txt
-
 ├── reset_factory.sh
-
 └── station_data
+```
 
 # To Run
 The data can be pulled from [data.al.climate.com](https://data.alclimate.com/) and processed into daily files by running the following command in the directory containing the python software. 
