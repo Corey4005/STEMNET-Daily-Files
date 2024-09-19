@@ -5,6 +5,7 @@ Purpose: Contains helper funcitons that can be imported into other scripts.
 """
 import datetime
 import os
+from datetime import timedelta
 
 def try_epoch_to_date(record, station, bad_time_dictionary):
     """
@@ -73,5 +74,25 @@ def calculate_vwc(mm):
         else:
             return "-999.99" #cleans data that is below 0 volts
     
+def check_timestamp(epoch):
+    """
+    Purpose: this function compares a timestamp to the current date and
+    returns timestamps that are greater than UTC + 12, the current time
+    at the farthest UTC location on Earth. Anything over this time
+    would suggest a timestamp error because the clocks on the
+    sensor cannot be greater than what is currently possible on earth.
+    
+    """
+    try: 
+        datestamp = datetime.datetime.fromtimestamp(int(epoch), datetime.timezone.utc)
+        now = datetime.datetime.now(datetime.timezone.utc) + timedelta(hours=12)
+        if datestamp > now:
+            return epoch 
+        #returns none if datestamp is less than now (UTC + 12) 
         
+    except:
+        return epoch
+    
+    
+    
     

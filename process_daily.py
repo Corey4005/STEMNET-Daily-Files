@@ -13,6 +13,7 @@ import datetime
 from helper_functions import try_epoch_to_date
 from helper_functions import create_header
 from helper_functions import calculate_vwc
+from helper_functions import check_timestamp
 
 
 #for each csv in the station_data folder:
@@ -76,12 +77,27 @@ for fn in os.listdir(station_data_dir):
                 nonnumericbad_data = [record['time'] for record in sorted_data if pattern.search(record['time']) and record['time'] not in length_bad_time_data]
                 #go through and find the index with matching records
                 #all bad records to log and 
-                all_bad = length_bad_time_data + nonnumericbad_data
-                #create a list without the bad data 
-                cleaned_records = [record for record in sorted_data if record['time'] not in all_bad]
+                bad_length_and_nonnumeric = length_bad_time_data + nonnumericbad_data
+                #create a list without the bad length data 
+                some_cleaned_records = [record for record in sorted_data if record['time'] not in bad_length_and_nonnumeric]
     
-                if len(all_bad)>0:
-                    logging.warning(f'[BAD TIME DATA, BAD LENGTH OR NON-NUMERIC], {station}, {all_bad}')
+                if len(length_bad_time_data)>0:
+                    logging.warning(f'[BAD LENGTH], {station}, {length_bad_time_data}')
+                    
+                if len(nonnumericbad_data)>0:
+                    logging.warning(f'[BAD NON-NUMERIC], {station}, {nonnumericbad_data}')
+                    
+                #go through the sorted data and return timestamps greater than current time.
+                clock_errors = [record['time'] for record in some_cleaned_records if (result := check_timestamp(record['time'])) is not None]
+                
+                #creating a list of all bad timestamps
+                all_bad = length_bad_time_data + nonnumericbad_data + clock_errors
+                
+                if len(clock_errors)>0:
+                    logging.warning(f'[BAD CLOCK TIME], {station}, {clock_errors}')
+                    
+                #create a final clean records list that does not include errors 
+                cleaned_records = [record for record in sorted_data if record['time'] not in all_bad]
                 
             else:
                 fail_stations.append({'station': station,
