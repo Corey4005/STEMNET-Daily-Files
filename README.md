@@ -35,7 +35,7 @@ Below is a diagram of the directory structure for this software. Please set up a
 └── station_data
 
 # To Run
-The data can be pulled from [the University of Alabama Huntsville Server](data.al.climate.com) and processed into daily files by running the following command in the directory containing the python software. 
+The data can be pulled from [data.al.climate.com](https://data.alclimate.com/) and processed into daily files by running the following command in the directory containing the python software. 
 ```
 python main.py 
 ```
