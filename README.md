@@ -3,4 +3,3 @@ The purpose of this repository is to create a data infrastructure that will comm
 
 # Project Dependencies
 This project is built with the Python 3.9.2 standard libraries. No special dependencies are needed. Just install python 3.9.2. You will also need wget 1.21 and curl 7.74 to run the shell scripts correctly. 
-Python 3.9.2 
