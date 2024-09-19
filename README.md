@@ -146,4 +146,4 @@ Place the following command in your crontab file, where <path-to-STEMNET-Daily-f
 ```
 
 # Project Dependencies
-This project is built with the Python 3.9.2 standard libraries. No special dependencies are needed. Just install python 3.9.2. You will also need wget 1.21 and curl 7.74 to run the shell scripts correctly. 
+This project is built with the Python 3.9.2 standard libraries. No special dependencies are needed. Just install python 3.9.2. You will also need wget 1.21 and curl 7.74 to run the shell scripts correctly. I am hoping to set up a docker file to make this setup easier. I have not tested if other version of python, curl and wget will work with this software. 
