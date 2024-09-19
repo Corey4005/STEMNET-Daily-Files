@@ -45,7 +45,7 @@ To set up a crontab so that new daily file observations can be added every 10 mi
 ```
 crontab -e
 ```
-Place the following command in your crontab file:
+Place the following command in your crontab file, where <path-to-STEMNET-Daily-files> is the location of the python software:
 ```
 */10 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
 ```
