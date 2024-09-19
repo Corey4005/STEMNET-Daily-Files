@@ -140,7 +140,7 @@ To set up a crontab so that new daily file observations can be added to the `dai
 ```
 crontab -e
 ```
-Place the following command in your crontab file, where <path-to-STEMNET-Daily-files> is the location of the python software:
+Place the following command in your crontab file, where `<path-to-STEMNET-Daily-files>` is the location of the python software:
 ```
 */10 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
 ```
