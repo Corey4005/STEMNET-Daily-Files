@@ -136,7 +136,7 @@ python main.py
 ```
 
 # Crontab
-To set up a crontab so that new daily file observations can be added every 10 minutes, run the following commands: 
+To set up a crontab so that new daily file observations can be added to the `daily_files` directory every 10 minutes, (even when you are away from your machine and it is sleeping) run the following commands: 
 ```
 crontab -e
 ```
