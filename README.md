@@ -191,13 +191,13 @@ python main.py
 ```
 
 # Crontab Setup 
-To set up a crontab so that new daily file observations can be added to the `daily_files` directory every 10 minutes, (even when you are away from your machine and it is sleeping) run the following commands: 
+To set up a crontab so that new daily file observations can be added to the `daily_files` directory every hour, (even when you are away from your machine and it is sleeping) run the following commands: 
 ```
 crontab -e
 ```
 Place the following command in your crontab file, where `<path-to-STEMNET-Daily-files>` is the location of the python software:
 ```
-*/10 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
+*/60 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
 ```
 
 # Project Dependencies
