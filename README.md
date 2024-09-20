@@ -191,10 +191,13 @@ python main.py
 ```
 
 # Crontab Setup 
-To set up a crontab so that new daily file observations can be added to the `daily_files` directory every hour, (even when you are away from your machine and it is sleeping) run the following commands: 
+The data at[data.al.climate.com](https://data.alclimate.com/) is updated every hour. Therefore, to automate python being called every hour so that data files can be updated, set up a chrontab and call `main.py`. For example, to setup a crontab so that new daily file observations can be added to daily files in the `daily_files` directory every hour, (even when you are away from your machine and it is sleeping) run the following commands: 
+
+### set up a new crontab
 ```
 crontab -e
 ```
+### add a cron job 
 Place the following command in your crontab file, where `<path-to-STEMNET-Daily-files>` is the location of the python software:
 ```
 */60 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
