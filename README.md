@@ -108,7 +108,7 @@ The server at [data.alclimate.com/stemmnet/stations/](https://data.alclimate.com
 ```
 
 # Set up 
-Below is a diagram of the directory structure for this software. Please set up a `logfiles` directory and a subfolder called `last_station_times` in the same directory as the python and shell scripts. You will also need to set up a `daily_files` and `station_data` directory for the software to function properly. I am working to update the software to make this setup automated upon the first time it is called. For now, you will have to set these directories up yourself. 
+Below is a diagram of the directory structure for this software. 
 
 ```
 .
