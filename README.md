@@ -173,6 +173,9 @@ Below is a diagram of structure for this software including descriptions of each
 ### process_daily.py
     a script to process the daily files for each station csv file that is pulled from data.alclimate.com
 
+### read_routine.py
+    Contains the ReadRoutine class that can be used to read dailyfiles into a programable object
+
 # Shell Scripts 
 
 ### get_station.sh 
