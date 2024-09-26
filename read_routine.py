@@ -35,6 +35,8 @@ class ReadRoutine:
         The purpose of this function is to read all of the data 
         in the daily file (self.filepath), and put this information 
         into lists that can be used for downstream analysis. 
+
+        returns copy of self to the caller
         '''
 
         daily = open(self.file, 'r')
@@ -79,7 +81,5 @@ class ReadRoutine:
             
             linecount+=1
 
-
-
-if __name__ == '__main__':
-    ReadRoutine(testfile).get_data()
+        #returns a copy of the object to the caller 
+        return self
