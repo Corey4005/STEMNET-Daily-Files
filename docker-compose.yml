@@ -1,0 +1,9 @@
+---
+services:
+  stemnet:
+    container_name: stemnet
+    build: .
+    tty: true
+    environment:
+      - TZ=America/Chicago
+
