@@ -4,4 +4,6 @@
 rm ./logfiles/*.log
 rm ./logfiles/last_station_times/*.csv
 rm -r ./daily_files/*
+rm -r ./station_data/*
+rm -r ./metadata/*
 

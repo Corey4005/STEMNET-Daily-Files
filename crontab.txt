@@ -1,0 +1,2 @@
+# Run Hourly
+0 * * * * (cd /root/stemnet/STEMNET-Daily-Files/ && python main.py) >> /root/stemnet/output.log 2>&1
