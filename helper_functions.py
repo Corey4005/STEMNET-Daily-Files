@@ -93,6 +93,117 @@ def check_timestamp(epoch):
     except:
         return epoch
     
-    
-    
-    
+
+def process_daily(station, logging, records_to_create, longitude, latitude, name, depths):
+    # 7. check if a station folder exists and a year directory exists for that time stamp in the station folder.
+            station_dir = os.getcwd() + f'/daily_files/{station}'
+            bad_epoch_dictionary = {} #dictionary to store bad epoch values by station
+            if not os.path.isdir(station_dir):
+            #a. if the station folder does not exist, make a station and year directory
+                os.mkdir(station_dir)
+            
+            #create a timestamp for each time in the records, return 999 for a problem timestamp
+            clean_timestamps = [try_epoch_to_date(record, station, bad_epoch_dictionary) for record in records_to_create]
+            
+            #if there was a bad epoch time, log it. 
+            if station in bad_epoch_dictionary:
+                logging.error(f'[DATE CONVERSION ERROR {station}: {bad_epoch_dictionary.get(station)}')
+            
+            #b. for each timestamp in the clean records, check for a folder with the year and day.
+            for i in clean_timestamps:
+                bad_vwc = {} #log any vwc below zero 
+                
+                if i=='999':
+                    pass
+                    #do nothing
+                else:
+                    #set the date variables from the record
+                    year = i.get('time').year
+                    day = '{:02d}'.format(i.get('time').day)
+                    month = '{:02d}'.format(i.get('time').month)
+                    hour = i.get('time').hour
+                    minute = i.get('time').minute
+                    second = i.get('time').second
+                    
+                    #check if the dir exists
+                    if os.path.exists(station_dir +'/'+str(year)):
+                        pass
+                
+                    else:
+                    #else make the dir
+                        os.mkdir(station_dir +'/'+str(year))
+                
+                
+                    #same with the month dir
+                    if os.path.exists(station_dir +'/'+str(year) + '/'+str(month)):
+                        pass
+                
+                    else:
+                        os.mkdir(station_dir +'/'+str(year) + '/'+str(month))
+                    
+                
+                    #same with the day dir
+                    if os.path.exists(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day)):
+                        pass
+                
+                    else:
+                        os.mkdir(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day))
+                
+                    #now we will check if the file exists, write out the data
+                    if os.path.exists(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt'):
+                        with open(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt', 'a') as file:
+                            time = i.get('time')
+                            #soil moisture values
+                            m0 = calculate_vwc(i.get('m0'))
+                            m1 = calculate_vwc(i.get('m1'))
+                            m2 = calculate_vwc(i.get('m2'))
+                            m3 = calculate_vwc(i.get('m3'))
+                            m4 = calculate_vwc(i.get('m4'))
+                            #temps
+                            t0 = i.get('t0')
+                            t1 = i.get('t1')
+                            t2 = i.get('t2')
+                            t3 = i.get('t3')
+                            t4 = i.get('t4')
+                            #sensor info
+                            vpv = i.get('vpv')
+                            vb = i.get('vb')
+                            vc = i.get('vc')
+                            
+                            file.write(f'{time}, {m0}, {m1}, {m2}, {m3}, {m4}, {t0}, {t1}, {t2}, {t3}, {t4}, {vpv}, {vb}, {vc}\n')
+                
+                    else:
+                        with open(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt', 'w') as file:
+                            #write the id of station
+                            file.write(f'id: {station}\n')
+                            #write station name
+                            file.write(f'name: {name}\n')
+                            #latitude, longitude
+                            file.write(f'location: {longitude}, {latitude}\n')
+                            # depths
+                            file.write(f'depths: {depths}\n')
+                            # date
+                            file.write(f'{month}-{year}-{day}\n')
+                            #column headers
+                            file.write('\n')
+                            file.write(create_header()+'\n')
+                            #data 
+                            time = i.get('time')
+                            #soil moisture values
+                            m0 = calculate_vwc(i.get('m0'))
+                            m1 = calculate_vwc(i.get('m1'))
+                            m2 = calculate_vwc(i.get('m2'))
+                            m3 = calculate_vwc(i.get('m3'))
+                            m4 = calculate_vwc(i.get('m4'))
+                            #temps
+                            t0 = i.get('t0')
+                            t1 = i.get('t1')
+                            t2 = i.get('t2')
+                            t3 = i.get('t3')
+                            t4 = i.get('t4')
+                            #sensor info 
+                            vpv = i.get('vpv')
+                            vb = i.get('vb')
+                            vc = i.get('vc')
+                            #write out all values 
+                            file.write(f'{time}, {m0}, {m1}, {m2}, {m3}, {m4}, {t0}, {t1}, {t2}, {t3}, {t4}, {vpv}, {vb}, {vc}\n') 
