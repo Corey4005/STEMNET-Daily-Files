@@ -15,6 +15,7 @@ from helper_functions import create_header
 from helper_functions import calculate_vwc
 from helper_functions import check_timestamp
 from helper_functions import process_daily
+from helper_functions import check_depths
 
 
 #for each csv in the station_data folder:

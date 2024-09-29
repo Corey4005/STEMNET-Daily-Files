@@ -207,3 +207,55 @@ def process_daily(station, logging, records_to_create, longitude, latitude, name
                             vc = i.get('vc')
                             #write out all values 
                             file.write(f'{time}, {m0}, {m1}, {m2}, {m3}, {m4}, {t0}, {t1}, {t2}, {t3}, {t4}, {vpv}, {vb}, {vc}\n') 
+
+def update_dictionary_list(station_id, index, list_to_add, dictionary):
+    """
+    Purpose: 
+        updates a dictionary list at a particular value index for a particular 
+        station key.          
+    """
+    #grabbing the current list at index in the dictionary
+    list = dictionary.get(station_id)[index][0]
+
+    #creating a new list by appending defined list to current list
+    newlist = [*list, *list_to_add[0]]
+
+    #updating dictionary values
+    dictionary.get(station_id)[index][0] = newlist
+    
+
+def calculate_percentile(list, percentile):
+    """
+    calculates the percentiles   
+    """
+    #remove 999
+    # Remove all occurrences of -999.99
+    filtered_list = [x for x in list if x != -999.99]
+
+    #if all values are -999.99
+    if len(filtered_list) == 0:
+        return -999.99
+    #if length is less than 99, then you cant get a percentile 
+    #Step 1: Count the total numbers of values in the given data set as n
+    count = len(filtered_list)
+    # Step 2: Rank the values in the given data set in ascending order that is rank them from least to greatest.
+    list = sorted(filtered_list)
+    # Step 3: To find the pth percentile multiply the p% or p/100 x n The answer that we get after multiplying is called index.
+    index = percentile/100 * count
+    # Step 4: Round the index to the nearest whole number if it is in decimal.
+    index = round(index)
+
+    if index >= count: #error with number of observations
+        return -999.99 
+    # Step 5: Identify the desired pth percentile asked in the problem. Count the values in the data set until we reach the index value. 
+    # The number that corresponds to that value is the pth percentile. 
+    return list[index]
+
+
+def check_depths(depths):
+    """
+    Purpose: splits the depths into a list 
+    returns the length of the depths parameter 
+    """
+    listdepths = depths.split(';')
+    return len(listdepths)
