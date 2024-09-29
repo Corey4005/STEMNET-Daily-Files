@@ -14,6 +14,7 @@ from helper_functions import try_epoch_to_date
 from helper_functions import create_header
 from helper_functions import calculate_vwc
 from helper_functions import check_timestamp
+from helper_functions import check_depths
 
 
 #for each csv in the station_data folder:
@@ -204,6 +205,8 @@ for fn in os.listdir(station_data_dir):
                     if os.path.exists(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt'):
                         with open(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt', 'a') as file:
                             time = i.get('time')
+                            #create a check depth function 
+                            number_sensors = check_depths(depths)
                             #soil moisture values
                             m0 = calculate_vwc(i.get('m0'))
                             m1 = calculate_vwc(i.get('m1'))

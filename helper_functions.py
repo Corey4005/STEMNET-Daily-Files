@@ -135,3 +135,12 @@ def calculate_percentile(list, percentile):
     # Step 5: Identify the desired pth percentile asked in the problem. Count the values in the data set until we reach the index value. 
     # The number that corresponds to that value is the pth percentile. 
     return list[index]
+
+
+def check_depths(depths):
+    """
+    Purpose: splits the depths into a list 
+    returns the length of the depths parameter 
+    """
+    listdepths = depths.split(';')
+    return len(listdepths)
