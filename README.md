@@ -207,6 +207,7 @@ The data can be pulled from [data.al.climate.com](https://data.alclimate.com/) a
 ```
 python main.py 
 ```
+This will create all daily files from the oldest to most recent observation times in the `daily_files` directory. If `main.py` is called again, it will not reprocess the oldest timestamps. It will only process observations that it has not seen. If you would like to check what the last observation time processed was for each station, go to the `logfiles/last_station_times/` directory and the most recent timestamp is stored in a `<station>.csv` file that is utilized by the software for each `main.py` call afterwards.
 
 # Crontab Setup 
 The data at[data.al.climate.com](https://data.alclimate.com/) is updated every hour. Therefore, to automate python being called every hour so that data files can be updated, set up a chrontab and call `main.py`. For example, to setup a crontab so that new daily file observations can be added to daily files in the `daily_files` directory every hour, (even when you are away from your machine and it is sleeping) run the following commands: 
