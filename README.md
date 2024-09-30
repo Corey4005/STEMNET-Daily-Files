@@ -150,8 +150,14 @@ Below is a diagram of structure for this software including descriptions of each
 ### climatology_files = location of the 0-99 percentile files for each station
 
     Contains the <station>.txt climatology file with 0-99 percentile values 
-    for each feature in all of the daily files. To create this directory, make 
-    sure you have some daily files in `/daily_files/` and run `python make_climatology.py`
+    for each feature in all of the daily files.
+
+
+To create `climatology_files`, make sure you have some daily files in `/daily_files/` and run:
+
+```
+python make_climatology.py
+```
 ### log_files = the location of files pertaining to error logs for a particular run
 
     Contains DATE_error.log file where DATE is the timestamp of the system run 
