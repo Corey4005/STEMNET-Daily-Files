@@ -124,7 +124,7 @@ Below is a diagram of structure for this software including descriptions of each
 │   └── last_station_times *
 ├── make_climatology.py
 ├── main.py
-├── metadata
+├── metadata *
 ├── movelog.sh
 ├── process_daily.py
 ├── reset_factory.sh
