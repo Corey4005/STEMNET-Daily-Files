@@ -1,5 +1,5 @@
 # STEMNET-Daily-Files
-The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on their own machines. This project also allows you to build 0-99 percentile climatology files for each station. With the added Docker capability, you can now run this as a container on top of Windows, Mac and Linux operating systems and have the project dependencies installed for you. 
+The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on their own machines. This project also allows you to build 0-99 percentile climatology files for each station. With the added Docker capability, you can now run this as a Debian Linux container on top of Windows, Mac and Linux operating systems and have the project dependencies installed for you.  
 
 # What is a daily file? 
 A daily file contains soil moisture observations in a standard format, where observations (volumetric soil moisture %, m0, m1, m2, m3, m4, temperature C, t0, t1, t2, t3, t4) are listed for particular for a 24 hour period. For example, here is a daily file for 9-18-24 at the Grant, Alabama station (SN003004).
@@ -111,22 +111,24 @@ The server at [data.alclimate.com/stemmnet/stations/](https://data.alclimate.com
 Below is a diagram of structure for this software including descriptions of each directory. 
 
 ```
+# * signifies directory automatically made by project 
 .
 ├── README.md
-├── daily_files
+├── climatology_files *
+├── daily_files *
 ├── get_data.py
 ├── get_metadata.sh
 ├── get_station.sh
 ├── helper_functions.py
-├── logfiles
-│   └── last_station_times
+├── logfiles *
+│   └── last_station_times *
+├── make_climatology.py
 ├── main.py
 ├── metadata
 ├── movelog.sh
 ├── process_daily.py
-├── readme.txt
 ├── reset_factory.sh
-└── station_data
+└── station_data *
 ```
 
 ### metadata = location of the soil moisture station metadata 
@@ -139,13 +141,17 @@ Below is a diagram of structure for this software including descriptions of each
 	
 	Contains the csv files of soil moisture data returned 
 	from get_station.sh
-	
+
 ### daily_files = location of the daily soil moisture data
 
     Contains subdirectories of each station. Inside of the station directory 
     will be year. Inside of each year will be a julian day directory. Inside of 
     the julian day directory will be a textfile with the measured soil moisture data. 
+### climatology_files = location of the 0-99 percentile files for each station
 
+    Contains the <station>.txt climatology file with 0-99 percentile values 
+    for each feature in all of the daily files. To create this directory, make 
+    sure you have some daily files in `/daily_files/` and run `python make_climatology.py`
 ### log_files = the location of files pertaining to error logs for a particular run
 
     Contains DATE_error.log file where DATE is the timestamp of the system run 
