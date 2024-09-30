@@ -1,5 +1,5 @@
 # STEMNET-Daily-Files
-The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on the server on their own machines.
+The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on their own machines. This project also allows you to build 0-99 percentile climatology files for each station. With the added Docker capability, you can now run this as a container on top of Windows, Mac and Linux operating systems and have the project dependencies installed for you. 
 
 # What is a daily file? 
 A daily file contains soil moisture observations in a standard format, where observations (volumetric soil moisture %, m0, m1, m2, m3, m4, temperature C, t0, t1, t2, t3, t4) are listed for particular for a 24 hour period. For example, here is a daily file for 9-18-24 at the Grant, Alabama station (SN003004).
@@ -168,13 +168,16 @@ Below is a diagram of structure for this software including descriptions of each
     a module that contains helper functions that can be imported into other scripts. 
     
 ### getdata.py 
-    a script to retrieve the up to date metadata file and return all available soil moisture data. 
+    a script to retrieve the up to date metadata file from the Alabama stemnet server. 
 	
 ### process_daily.py
-    a script to process the daily files for each station csv file that is pulled from data.alclimate.com
+    a script to process the daily files for each station csv file that is pulled from the Alabama stemnet server.
 
 ### read_routine.py
-    Contains the ReadRoutine class that can be used to read dailyfiles into a programable object
+    contains the ReadRoutine class that can be used to read dailyfiles into a programable object. 
+
+### make_climatology.py 
+    calculates 0-99 percentile values into standard climatology files for each station.  
 
 # Shell Scripts 
 
@@ -207,4 +210,21 @@ Place the following command in your crontab file, where `<path-to-STEMNET-Daily-
 ```
 
 # Project Dependencies
-This project is built with the Python 3.9.2 standard libraries. No special dependencies are needed. Just install python 3.9.2. You will also need wget 1.21 and curl 7.74 to run the shell scripts correctly. I am hoping to set up a docker file to make the dependency setup easier as well as making this software able to run on multiple operating systems. I have not tested if other version of python, curl and wget will work with this software. 
+This project is built with the Python standard libraries. No special Python dependencies are needed from package managers. You will also need `wget` and `curl` to run the shell scripts correctly. 
+The tested working versions are Python 3.9.2, wget 1.21 and curl 7.74 on a Raspberry Pi 4. 
+
+# Optional Docker Container setup 
+The wonderful [@wbcraft](@wbcraft) set up a docker file to run this project and all of its dependencies inside of a container. This means that if you build the container for your machine, you do not have to install anything, and can build the project dependencies as well. To build the container, move inside the `STEMNET-Daily-Files` directory and run the following commands:
+
+```
+#builds the container 
+docker compose up -d
+```
+
+```
+#run the container
+docker exec -it stemnet bash
+```
+
+This will give you a debian shell on top of your Windows, Mac or Linux Operating system and the cron job will automatically be deployed. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/`
+
