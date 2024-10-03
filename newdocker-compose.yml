@@ -1,8 +1,0 @@
----
-services:
-  stemnet:
-    container_name: stemnet
-    image: wbciii/stemnet:latest
-    environment:
-      - TZ=America/Chicago
-    restart: unless-stopped

@@ -2,8 +2,12 @@
 services:
   stemnet:
     container_name: stemnet
-    build: .
-    tty: true
+    image: wbciii/stemnet:latest
     environment:
       - TZ=America/Chicago
+    restart: unless-stopped
+    volumes:
+      - dailyfiles:/root/stemnet/STEMNET-Daily-Files/daily_files/
 
+volumes:
+  dailyfiles:
