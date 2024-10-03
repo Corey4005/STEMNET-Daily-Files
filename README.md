@@ -230,7 +230,7 @@ The tested working versions are Python 3.9.2, wget 1.21 and curl 7.74 on a Raspb
 The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means that you can build the container on your your machine using the docker file. Or, you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files` directory and run the following command:
 
 ```
-#builds the container 
+#pulls the docker container from Docker Hub and starts the stemnet container 
 docker compose up -d 
 ```
 
