@@ -7,7 +7,5 @@ services:
       - TZ=America/Chicago
     restart: unless-stopped
     volumes:
-      - dailyfiles:/root/stemnet/STEMNET-Daily-Files/daily_files/
-
-volumes:
-  dailyfiles:
+      - ./daily_files:/root/stemnet/STEMNET-Daily-Files/daily_files/
+      - ./logfiles:/root/stemnet/STEMNET-Daily-Files/logfiles/
