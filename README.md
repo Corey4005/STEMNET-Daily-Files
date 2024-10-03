@@ -136,7 +136,7 @@ First install docker:
 - [Linux install](https://docs.docker.com/engine/install/)
 - [Mac install](https://docs.docker.com/engine/install/)
   
-The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means that you can build the container on your your machine using the docker file. Or, you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files/docker-setup` directory and run the following command:
+The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files/docker-setup` directory and run the following command:
 
 ```
 #pulls the docker container from Docker Hub and starts the stemnet container 
