@@ -234,22 +234,15 @@ The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose fil
 docker compose up -d 
 ```
 
+# To step inside the container 
 ```
 #step inside the container 
 docker exec -it stemnet bash #you will be root and should see all of the STEMNET python and shell script files 
 ```
 
-This container will give you a Raspbery Pi OS on top of your Windows, Mac or Linux Operating system and the cron job will automatically be deployed. Come back at the 5th minute of every hour and new files should appear in `daily_files` that were processed by the software. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/` directory and shared on a referenced volume on the host machnine. To see where the data is being written on your machine from the container, run the following command:
+This container will give you a Raspbery Pi OS on top of your Windows, Mac or Linux Operating system and the cron job will automatically be deployed. Come back at the 5th minute of every hour and new files should appear in `daily_files` that were processed by the software. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/` directory and shared on a mount at `STEMNET-Daily-Files/daily_files` on the host machnine. Similarly, the logfiles will be stored in `STEMNET-Daily-Files/logfiles`. 
 
-```
-#look at available volumes
-docker volume ls
-```
-
-```
-#inspect the stemnet volume created by the docker compose file
-docker volume inspect stemnet-daily-files_dailyfiles
-```
+# To build an image locally 
 You can build the docker image directly on your machine without pulling from the Docker Hub. To do that, step inside the `STEMNET-Daily-Files` directory and run the following commands:
 
 ```
@@ -265,5 +258,7 @@ docker image ls
 You can then start a container from the built image by running
 
 ```
-docker start <image> #where image is the IMAGE ID or the REPOSITORY found after running docker image ls
+docker start <image> #where image is the IMAGE ID
 ```
+
+From there you can follow the same instructions above to step inside the container. 
