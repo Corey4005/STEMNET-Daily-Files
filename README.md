@@ -132,6 +132,10 @@ This project is built with the Python standard libraries. No special Python depe
 The tested working versions are Python 3.9.2, wget 1.21 and curl 7.74 on a Raspberry Pi 4. 
 
 # Optional Docker Container setup 
+First install docker:
+- [Linux install](https://docs.docker.com/engine/install/)
+- [Mac install](https://docs.docker.com/engine/install/)
+  
 The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means that you can build the container on your your machine using the docker file. Or, you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files/docker-setup` directory and run the following command:
 
 ```
