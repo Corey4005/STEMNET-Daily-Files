@@ -258,7 +258,7 @@ docker image ls
 You can then start a container from the built image by running
 
 ```
-docker start <image> #where image is the IMAGE ID or the REPOSITORY found after running docker image ls
+docker start <image> #where image is the IMAGE ID
 ```
 
 From there you can follow the same instructions above to step inside the container. 
