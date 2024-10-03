@@ -31,6 +31,9 @@ COPY cron.sh /opt/cron.sh
 RUN chown root /opt/cron.sh && chmod +x /opt/cron.sh
 RUN crontab -u root /etc/cron.d/crontab.txt && mkdir /root/stemnet
 WORKDIR /root/stemnet
-COPY ./STEMNET-Daily-Files /root/stemnet/STEMNET-Daily-Files
+#copying the .py files
+COPY ./*.py /root/stemnet/STEMNET-Daily-Files/
+#copyiing all the .sh files
+COPY ./*.sh /root/stemnet/STEMNET-Daily-Files/
 
 ENTRYPOINT ["/opt/cron.sh"]
