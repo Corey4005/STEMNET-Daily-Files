@@ -227,17 +227,43 @@ This project is built with the Python standard libraries. No special Python depe
 The tested working versions are Python 3.9.2, wget 1.21 and curl 7.74 on a Raspberry Pi 4. 
 
 # Optional Docker Container setup 
-The wonderful [@wbcraft](@wbcraft) set up a docker file to run this project and all of its dependencies inside of a container. This means that if you build the container for your machine, you do not have to install anything, and can build the project dependencies as well. To build the container, move inside the `STEMNET-Daily-Files` directory and run the following commands:
+The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means that you can build the container on your your machine using the docker file. Or, you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files` directory and run the following command:
 
 ```
 #builds the container 
-docker compose up -d
+docker compose up -d 
 ```
 
 ```
-#run the container
-docker exec -it stemnet bash
+#step inside the container 
+docker exec -it stemnet bash #you will be root and should see all of the STEMNET python and shell script files 
 ```
 
-This will give you a debian shell on top of your Windows, Mac or Linux Operating system and the cron job will automatically be deployed. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/`
+This container will give you a Raspbery Pi OS on top of your Windows, Mac or Linux Operating system and the cron job will automatically be deployed. Come back at the 5th minute of every hour and new files should appear in `daily_files` that were processed by the software. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/` directory and shared on a referenced volume on the host machnine. To see where the data is being written on your machine from the container, run the following command:
 
+```
+#look at available volumes
+docker volume ls
+```
+
+```
+#inspect the stemnet volume created by the docker compose file
+docker volume inspect stemnet-daily-files_dailyfiles
+```
+You can build the docker image directly on your machine without pulling from the Docker Hub. To do that, step inside the `STEMNET-Daily-Files` directory and run the following commands:
+
+```
+docker build -t stemnet . # "." looks for the Dockerfile in STEMNET-Daily-Files.
+```
+
+Once the image builds, you will be able to see the built image on your machine by running the following command:
+
+```
+docker image ls
+```
+
+You can then start a container from the built image by running
+
+```
+docker start <image> #where image is the IMAGE ID or the REPOSITORY found after running docker image ls
+```
