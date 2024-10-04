@@ -5,9 +5,11 @@ Purpose: a script to drive the data infrustructure process.
 import subprocess
 import time
 import os 
-
+from datetime import datetime
 def main():
     # make sure the directories exist if they do not already 
+    current_date = datetime.now()
+    print(f'main.py call: {current_date}\n')
     cwd = os.getcwd()
     daily_files_dir = os.path.join(cwd, 'daily_files')
     logfiles_dir = os.path.join(cwd, 'logfiles')
@@ -36,7 +38,7 @@ def main():
     #measure run time
     end = time.time()
     script_time = end - start
-    print(f'Total process time: {script_time}')
+    print(f'Total process time: {script_time}\n')
     return None
 
 if __name__ == '__main__':
