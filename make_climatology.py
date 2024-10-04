@@ -204,11 +204,8 @@ for i in stations.keys():
         os.mkdir(climatology_dir)
 
     #write out the file
-    current_time = datetime.now()
-    year = str(current_time.year)
-    month = str(current_time.month)
-    day = str(current_time.day)
-    filename = i + "_" + year + month + day + '.txt'
+    current_time = datetime.now().strftime("%y%m%d%H%M")
+    filename = i + "_" + current_time + '.txt'
     file = os.path.join(climatology_dir, filename)
     
     
