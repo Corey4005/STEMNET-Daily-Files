@@ -9,3 +9,4 @@ services:
     volumes:
       - ./daily_files:/root/stemnet/STEMNET-Daily-Files/daily_files/
       - ./logfiles:/root/stemnet/STEMNET-Daily-Files/logfiles/
+      - ./climatology_files:/root/stemnet/STEMNET-Daily-Files/climatology_files/

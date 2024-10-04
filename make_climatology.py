@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from read_routine import ReadRoutine
 from helper_functions import update_dictionary_list
 from helper_functions import calculate_percentile
@@ -201,7 +202,11 @@ for i in stations.keys():
         os.mkdir(climatology_dir)
 
     #write out the file
-    filename = i + '.txt'
+    current_time = datetime.now()
+    year = str(current_time.year)
+    month = str(current_time.month)
+    day = str(current_time.day)
+    filename = i + "_" + year + month + day + '.txt'
     file = os.path.join(climatology_dir, filename)
     
     
@@ -223,8 +228,8 @@ for i in stations.keys():
         for x in range(len(percentiles)):
             f.write(str(x) + ', ' + str(m0_percentiles[x]) + ', ' + str(m1_percentiles[x]) + ', ' + str(m2_percentiles[x]) 
                     + ', ' + str(m3_percentiles[x]) +  ', ' + str(m4_percentiles[x]) +', ' + str(t0_percentiles[x]) + ', ' 
-                    + str(t1_percentiles[x]) + ', ' + str(t2_percentiles[x]) + ', ' + str(t2_percentiles[x]) + ', ' + str(t3_percentiles[x]) 
-                    + ', ' + str(t4_percentiles[x]) + ', ' + str(vpv_percentiles[x]) + ', ' + str(vb_percentiles[x]) + ', ' + str(vc_percentiles[x])+'\n')
+                    + str(t1_percentiles[x]) + ', ' + str(t2_percentiles[x]) + ', ' + str(t3_percentiles[x]) + ', ' + str(t4_percentiles[x]) 
+                    + ', ' + str(vpv_percentiles[x]) + ', ' + str(vb_percentiles[x]) + ', ' + str(vc_percentiles[x])+'\n')
 
 
         
