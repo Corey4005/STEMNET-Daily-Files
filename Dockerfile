@@ -33,8 +33,6 @@ RUN crontab -u root /etc/cron.d/crontab.txt && mkdir /root/stemnet
 WORKDIR /root/stemnet
 #copying the .py files
 COPY ./*.py /root/stemnet/STEMNET-Daily-Files/
-# reset the main.py to docker main.py 
-COPY ./docker-needed/*.py /root/stemnet/STEMNET-Daily-Files/
 #copyiing all the .sh files
 COPY ./*.sh /root/stemnet/STEMNET-Daily-Files/
 #getting the permissions script 

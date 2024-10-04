@@ -33,9 +33,6 @@ def main():
     #process daily files
     subprocess.run(['python', './process_daily.py'])
 
-    #setting the permissions from inside docker container
-    subprocess.run(['./set_permissions.sh'])
-
     #measure run time
     end = time.time()
     script_time = end - start
