@@ -1,0 +1,39 @@
+FROM base:latest
+
+RUN apt-get update && apt-get install -y \
+    cron \
+    python3 \
+    wget \
+    rsyslog \
+    vim \
+    nano \
+    systemctl \
+    rsync
+
+RUN apt-get clean
+
+RUN useradd user
+RUN ln -s /usr/bin/python3 /usr/bin/python && \
+    touch /var/log/cron.log && service cron start
+#install cronjob
+COPY crontab.txt /etc/cron.d/crontab.txt
+RUN /etc/init.d/cron start 
+RUN crontab -u root /etc/cron.d/crontab.txt && mkdir -p /home/user/stemnet
+#install python files
+COPY ./*.py /home/user/stemnet/
+#install .sh files
+COPY get_metadata.sh /home/user/stemnet/
+COPY get_station.sh /home/user/stemnet/
+COPY movelog.sh /home/user/stemnet/
+COPY move_script.sh /home/user/stemnet/
+#give ownership to user for particular directories
+RUN mkdir /home/user/stemnet/daily_files
+RUN mkdir /home/user/stemnet/logfiles
+RUN mkdir /home/user/stemnet/climatology_files
+RUN mkdir /home/user/stemnet/data_out
+
+RUN chown user /home/user/stemnet/data_out
+RUN chgrp user /home/user/stemnet/data_out
+WORKDIR /home/user/stemnet
+
+CMD ["python", "main.py"]

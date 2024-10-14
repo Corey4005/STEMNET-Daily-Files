@@ -1,0 +1,3 @@
+# Run get data script hourly at 5 minute of every hour
+5 * * * * (cd /home/user/stemnet/ && python main.py && python make_climatology.py) >> /home/user/stemnet/logfiles/python_output.log 2>&1
+

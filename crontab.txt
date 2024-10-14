@@ -1,2 +1,0 @@
-# Run get data script hourly at 5 minute of every hour
-5 * * * * (cd /root/stemnet/STEMNET-Daily-Files/ && python main.py && python make_climatology.py && ./set_permissions.sh) >> /root/stemnet/STEMNET-Daily-Files/logfiles/python_output.log 2>&1

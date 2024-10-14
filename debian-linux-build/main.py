@@ -16,6 +16,7 @@ def main():
     last_station_times_dir = os.path.join(logfiles_dir, 'last_station_times')
     station_data_dir = os.path.join(cwd, 'station_data')
     metadata_dir = os.path.join(cwd, 'metadata')
+    data_out_dir = os.path.join(cwd, 'data_out')
 
     if not os.path.exists(daily_files_dir):
         os.mkdir(daily_files_dir)
@@ -27,6 +28,8 @@ def main():
         os.mkdir(station_data_dir)
     if not os.path.exists(metadata_dir):
         os.mkdir(metadata_dir)
+    if not os.path.exists(data_out_dir):
+        os.mkdir(data_out_dir)
 
     start = time.time()
     #fetch the updated metadata and all available soil moisture data
@@ -35,6 +38,8 @@ def main():
     #process daily files
     subprocess.run(['python', './process_daily.py'])
     
+    #rsyncing data to out dir
+    subprocess.run(['./move_script.sh'])    
     #measure run time
     end = time.time()
     script_time = end - start
