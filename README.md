@@ -112,6 +112,6 @@ First install docker:
 - [Linux install](https://docs.docker.com/engine/install/)
 - [Mac install](https://docs.docker.com/engine/install/)
   
-The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the [`STEMNET-Daily-Files/debian-linux-docker-compose`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-docker-compose-file) directory and follow the associated instructions. 
+The wonderful [@wbcraft](https://github.com/wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the [`STEMNET-Daily-Files/debian-linux-docker-compose`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-docker-compose-file) directory and follow the associated instructions. 
 
 To build the containers yourself, move inside the [`STEMNET-Daily-Files/debian-linux-build`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-build) directory and follow the assocated instructions. 
