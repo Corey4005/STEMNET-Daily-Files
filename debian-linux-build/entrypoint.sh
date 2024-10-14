@@ -1,6 +1,6 @@
-#!/bin/bash
-service cron start 
+#!/bin/bash 
 (cd /home/user/stemnet/ && python /home/user/stemnet/main.py && python /home/user/stemnet/make_climatology.py) >> ./logfiles/python_output.log
+service cron start
 
 # Add local user
 # Either use the LOCAL_USER_ID if passed in at runtime or
