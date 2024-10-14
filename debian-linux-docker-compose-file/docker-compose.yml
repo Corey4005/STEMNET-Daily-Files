@@ -5,6 +5,6 @@ services:
     image: corey4005/stemnet-daily-files:latest
     environment:
       - ./environment/env_file.env
-    restart: unless-stopped
     volumes:
       - ./data_out:/home/user/stemnet/data_out/
+    restart: unless-stopped

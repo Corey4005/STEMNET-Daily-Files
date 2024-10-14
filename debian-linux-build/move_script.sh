@@ -9,17 +9,19 @@ if [[ $(stat -c "$" ./data_out) != $USER ]]; then
     chgrp -R $GROUP ./data_out
 fi
 
+rsync -avz /home/user/stemnet/daily_files /home/user/stemnet/transfer_station/
+rsync -avz /home/user/stemnet/climatology_files /home/user/stemnet/transfer_station/
+rsync -avz /home/user/stemnet/logfiles /home/user/stemnet/transfer_station/
+
 #giving ownership to user to all new files created by root
-chown -R user /home/user/stemnet/daily_files
-chown -R user /home/user/stemnet/climatology_files
-chown -R user /home/user/stemnet/logfiles
+chown -R user /home/user/stemnet/transfer_station
 
 #giving group user to all new files created by root
-chgrp -R user /home/user/stemnet/daily_files
-chgrp -R user /home/user/stemnet/climatology_files
-chgrp -R user /home/user/stemnet/logfiles
+chgrp -R user /home/user/stemnet/transfer_station
+
 #moves data from particular directories owned by root to the data_out dir, owned by user
 # this is the mounted location according to the docker compose file. 
-rsync -avz /home/user/stemnet/daily_files /home/user/stemnet/data_out/
-rsync -avz /home/user/stemnet/climatology_files /home/user/stemnet/data_out/
-rsync -avz /home/user/stemnet/logfiles /home/user/stemnet/data_out/
+rsync -avz /home/user/stemnet/transfer_station /home/user/stemnet/data_out/
+
+#remove all of the files so that the contaainer does not have to maintain so much space.
+rm -rf /home/user/stemnet/transfer_station/*

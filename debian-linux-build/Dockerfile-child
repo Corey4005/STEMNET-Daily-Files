@@ -31,6 +31,7 @@ RUN mkdir /home/user/stemnet/daily_files
 RUN mkdir /home/user/stemnet/logfiles
 RUN mkdir /home/user/stemnet/climatology_files
 RUN mkdir /home/user/stemnet/data_out
+RUN mkdir /home/user/stemnet/transfer_station
 
 RUN chown user /home/user/stemnet/data_out
 RUN chgrp user /home/user/stemnet/data_out
