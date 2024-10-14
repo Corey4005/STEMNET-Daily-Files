@@ -115,3 +115,5 @@ First install docker:
 The wonderful [@wbcraft](https://github.com/wbcraft) helped set up the first Docker files and their associated Docker Compose file to run this project and all of its dependencies inside of a container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the [`STEMNET-Daily-Files/debian-linux-docker-compose`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-docker-compose-file) directory and follow the associated instructions. 
 
 To build the containers yourself, move inside the [`STEMNET-Daily-Files/debian-linux-build`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-build) directory and follow the assocated instructions. 
+
+The [`stemnet-daily-files`](https://hub.docker.com/repository/docker/corey4005/stemnet-daily-files/general) image is located on the Docker hub and is available to be pulled to a host machine. 
