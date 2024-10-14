@@ -1,8 +1,8 @@
 # STEMNET-Daily-Files
-The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on their own machines. This project also allows you to build 0-99 percentile climatology files for each station. With the added Docker capability, you can now run this as a Raspberry Pi Linux container on top of another Linux or Mac operating system (hoping to work on Windows soon) and have the project dependencies installed for you. The container also automates the cron job setup so that calls are made by the software on the 5th minute of every hour and dumped on your host machine in convenient directories. 
+The purpose of this repository is to create a data infrastructure that will communicate with the STEMNET server at the University of Alabama Huntsville. In particular, the goal is to give anyone the capability to create clean daily files from all available stations on their own machines. This project also allows you to build 0-99 percentile climatology files for each station. With the added Docker capability, you can now run this as a Linux container on top of another Linux or Mac operating system and have the project dependencies installed for you. The container also automates the cron job setup so that calls are made by the software on the 5th minute of every hour and dumped on your host machine in a convenient volumne directory. 
 
 # What is a daily file? 
-A daily file contains soil moisture observations in a standard format, where observations (volumetric soil moisture %, m0, m1, m2, m3, m4, temperature C, t0, t1, t2, t3, t4, battery values V, vpv, vb, vc) are listed for particular for a 24 hour period. For example, here is a daily file for 9-18-24 at the Grant, Alabama station (SN003004).
+A daily file contains soil moisture observations in a standard format, where observations are listed for particular for a 24 hour period. Moisture values (m0, m1, m2, m3 and m4) are associated with depths beginning with the smallest number first, and are in volumetric soil moisutre (cm^3/cm^3) units. If the depth does not exist for a particular file, the column will be replaced with `-999.99`. Temperature values are also associated with the same depths as their mositure counterpart (t0 is associated with m0) and are in units of celcius (C). There are also voltage readings in the file for the solar panel (vpv), the battery (vb) and the clock (vc). Here is a daily file for 9-18-24 at the Grant, Alabama station (SN003004).
 ```
 id: SN003004
 name: Grant
@@ -105,48 +105,12 @@ The server at [data.alclimate.com/stemmnet/stations/](https://data.alclimate.com
     │   └── 20231125.txt
     └── 26
         └── 20231126.txt
-```
 
-# How To Run
-The data can be pulled from [data.al.climate.com](https://data.alclimate.com/) and processed into daily files by running the following command in the directory containing the python software. 
-```
-python main.py 
-```
-This will create all daily files from the oldest to most recent observation times in the `daily_files` directory. If `main.py` is called again, it will not reprocess the oldest timestamps. It will only process observations that it has not seen. If you would like to check what the last observation time processed was for each station, go to the `logfiles/last_station_times/` directory and the most recent timestamp is stored in a `<station>.csv` file that is utilized by the software for each `main.py` call afterwards.
-
-# Crontab Setup 
-The data at[data.al.climate.com](https://data.alclimate.com/) is updated every hour. Therefore, to automate python being called every hour so that data files can be updated, set up a chrontab and call `main.py`. For example, to setup a crontab so that new daily file observations can be added to daily files in the `daily_files` directory every hour on the 5th minute, (even when you are away from your machine and it is sleeping) run the following commands: 
-
-### set up a new crontab
-```
-crontab -e
-```
-### add a cron job 
-Place the following command in your crontab file, where `<path-to-STEMNET-Daily-files>` is the location of the python software:
-```
-5 * * * * (cd <path-to-STEMNET-Daily-files> && python main.py) >/dev/null 2>&1
-```
-
-# Project Dependencies
-This project is built with the Python standard libraries. No special Python dependencies are needed from package managers. You will also need `wget` and `curl` to run the shell scripts correctly. 
-The tested working versions are Python 3.9.2, wget 1.21 and curl 7.74 on a Raspberry Pi 4. 
-
-# Optional Docker Container setup 
+# Docker Container setup 
 First install docker:
 - [Linux install](https://docs.docker.com/engine/install/)
 - [Mac install](https://docs.docker.com/engine/install/)
   
-The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the `STEMNET-Daily-Files/docker-setup` directory and run the following command:
+The wonderful [@wbcraft](@wbcraft) set up a docker file and a docker compose file to run this project and all of its dependencies inside of a docker container. This means you can pull the image from Docker Hub and run the container on your machine. To pull the image from Docker Hub and start running it, move inside the [`STEMNET-Daily-Files/debian-linux-docker-compose`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-docker-compose-file) directory and follow the associated instructions. 
 
-```
-#pulls the docker container from Docker Hub and starts the stemnet container 
-./docker_setup.sh
-```
-
-# To step inside the container 
-```
-#step inside the container 
-docker exec -it stemnet bash #you will be root and should see all of the STEMNET python and shell script files 
-```
-
-This container will give you a Raspbery Pi OS on top of your Mac or Linux Operating system and the cron job will automatically be deployed. Come back at the 5th minute of every hour and new files should appear in `daily_files` that were processed by the software. The `daily_files` will be written inside of `/root/stemnet/STEMNET-Daily-Files/` directory and shared on a mount at `STEMNET-Daily-Files/daily_files/` on the host machine. Similarly, the logfiles will be stored in `/root/stemnet/STEMNET-Daily-Files/logfiles/` in the container and shared in `STEMNET-Daily-Files/logfiles` on the host. 
+To build the containers yourself, move inside the [`STEMNET-Daily-Files/debian-linux-build`](https://github.com/Corey4005/STEMNET-Daily-Files/tree/main/debian-linux-build) directory and follow the assocated instructions. 
