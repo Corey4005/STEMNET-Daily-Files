@@ -11,6 +11,6 @@ fi
 
 #moves data from particular directories owned by root to the data_out dir, owned by user
 # this is the mounted location according to the docker compose file. 
-rsync -avz --chown=user:user --chmod=755 /home/user/stemnet/daily_files /home/user/stemnet/data_out/
-rsync -avz --chown=user:user --chmod=755 /home/user/stemnet/logfiles /home/user/stemnet/data_out/  
-rsync -avz --chown=user:user --chmod=755 /home/user/stemnet/climatology_files /home/user/stemnet/data_out/
+rsync -avcz --chown=user:user --chmod=755 /home/user/stemnet/daily_files /home/user/stemnet/data_out/
+rsync -avcz --chown=user:user --chmod=755 /home/user/stemnet/logfiles /home/user/stemnet/data_out/  
+rsync -avcz --chown=user:user --chmod=755 /home/user/stemnet/climatology_files /home/user/stemnet/data_out/

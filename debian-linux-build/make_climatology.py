@@ -1,4 +1,5 @@
 import os
+import subprocess
 from datetime import datetime
 from read_routine import ReadRoutine
 from helper_functions import update_dictionary_list
@@ -6,8 +7,8 @@ from helper_functions import calculate_percentile
 cwd = os.getcwd()
 stations = {} #dictionary to sort station data in 
 
-current_time = datetime.now()
-print(f'make_climatology.py call {current_time}\n')
+start = datetime.now()
+print(f'make_climatology.py call {start}\n')
 count = 0
 daily_files = os.path.join(cwd, 'daily_files')
 for root, dir, files in os.walk(daily_files):
@@ -230,6 +231,9 @@ for i in stations.keys():
                     + str(t1_percentiles[x]) + ', ' + str(t2_percentiles[x]) + ', ' + str(t3_percentiles[x]) + ', ' + str(t4_percentiles[x]) 
                     + ', ' + str(vpv_percentiles[x]) + ', ' + str(vb_percentiles[x]) + ', ' + str(vc_percentiles[x])+'\n')
 
+endtime = datetime.now()
+total = endtime - start
 subprocess.run(['./move_script.sh']) 
 print('\n')
+print(f'make_climatology.py total process time: {endtime}')
         
