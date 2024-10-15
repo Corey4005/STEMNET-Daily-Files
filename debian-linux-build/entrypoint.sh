@@ -3,6 +3,9 @@
 # Either use the LOCAL_USER_ID if passed in at runtime or
 # fallback
 
+(cd /home/user/stemnet/ && python main.py) >> /home/user/stemnet/logfiles/main_output.log
+(cd /home/user/stemnet/ && python make_climatology.py) >> /home/user/stemnet/logfiles/make_climatology_output.log
+
 USER_ID=${LOCAL_USER_ID:-9001}
 
 echo "Starting with UID : $USER_ID"

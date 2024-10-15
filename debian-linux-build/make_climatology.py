@@ -230,5 +230,6 @@ for i in stations.keys():
                     + str(t1_percentiles[x]) + ', ' + str(t2_percentiles[x]) + ', ' + str(t3_percentiles[x]) + ', ' + str(t4_percentiles[x]) 
                     + ', ' + str(vpv_percentiles[x]) + ', ' + str(vb_percentiles[x]) + ', ' + str(vc_percentiles[x])+'\n')
 
+subprocess.run(['./move_script.sh']) 
 print('\n')
         

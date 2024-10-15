@@ -7,4 +7,6 @@ services:
       - LOCAL_USER_ID=${LOCAL_USER_ID}
     volumes:
       - ./data_out:/home/user/stemnet/data_out/
+    stdin_open: true
+    tty: true 
     restart: unless-stopped
