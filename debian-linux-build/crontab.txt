@@ -1,4 +1,4 @@
 # Run get data script hourly at 5 minute of every hour and the climatology script every wednesday at 12:15
-5 * * * * (cd /home/user/stemnet/ && python main.py) >> /home/user/stemnet/logfiles/main_output.log 2>&1
-15 12 * * 3 (cd /home/user/stemnet/ && python make_climatology.py) >> /home/user/stemnet/logfiles/make_climatology_output.log 2>&1
+5 * * * * (cd /home/user/stemnet/ && python main.py) >> /home/user/stemnet/logfiles/main_output.log 2>&1 >> crontab_output.log
+15 12 * * 3 (cd /home/user/stemnet/ && python make_climatology.py) >> /home/user/stemnet/logfiles/make_climatology_output.log 2>&1 >> crontab_output.log
 
