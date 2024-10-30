@@ -220,7 +220,16 @@ percentile, m0, m1, m2, m3, m4, t0, t1, t2, t3, t4, vpv, vb, vc
 98, 34.255, 32.065, 31.48, 34.645, -999.99, 25.75, 26.562, 27.0, 28.75, -999.99, 2916.5, 1972.25, 3316.5
 99, 34.596, 32.246, 31.857, 34.7, -999.99, 26.062, 26.875, 27.437, 29.75, -999.99, 2957.62, 1972.75, 3317.5
 ```
-A
+# Automated Checks
+This software cleans the data for you and logs all of the automated checks. 
+Low and high voltage - Any voltage reading used in the Volumetric Water Content (VWC) equation that is below 950 or above 2000 for m0, m1, m2, m3, and m4 are replaced with -999.99
+Bad Clock Values - On occasion, the computer will report a faulty clock time. Any clock time that is above the possible UTC+12 currently on Earth is ignored and not written out to daily files. 
+Bad Time Length Values - In the early days, clock times would sometimes return timestamps that were less than the correct number of characters. These observations are ignored and not written out to daily files.
+Timestamps containing characters - Sometimes, faulty values such as characters will be reported in the time stamps. Any timestamp that contains non-numeric characters will be ignored.
+
+# Volumetric Soil Moisture Equation
+The equation for calculating volumetric water content (VWC) is displayed below, where mm is the voltage returned from the soil moisture sensor:
+VWC = 100.0 * ((4.82E-10 * mm<sup>3</sup>) - (2.28E-6 * mm<sup>2</sup>) + (3.898E-3 * mm) - 2.154) 
 # Docker Container setup 
 First install docker:
 - [Linux install](https://docs.docker.com/engine/install/)
