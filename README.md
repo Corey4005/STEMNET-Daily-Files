@@ -231,6 +231,8 @@ This software cleans the data for you and logs all of the automated checks.
 
 - Timestamps containing characters: Sometimes, faulty values such as characters will be reported in the time stamps. Any timestamp that contains non-numeric characters will be ignored.
 
+All checks are reported in logs saved in `stemnet/logfiles/` directory and will be written as YYYYMMDDHH.log for when `main.py` returns.   
+
 # VWC Equation
 The equation for calculating VWC is displayed below, where mm is the voltage returned from the soil moisture sensor:
 
