@@ -227,8 +227,8 @@ Bad Clock Values - On occasion, the computer will report a faulty clock time. An
 Bad Time Length Values - In the early days, clock times would sometimes return timestamps that were less than the correct number of characters. These observations are ignored and not written out to daily files.
 Timestamps containing characters - Sometimes, faulty values such as characters will be reported in the time stamps. Any timestamp that contains non-numeric characters will be ignored.
 
-# Volumetric Soil Moisture Equation
-The equation for calculating volumetric water content (VWC) is displayed below, where mm is the voltage returned from the soil moisture sensor:
+# VWC Equation
+The equation for calculating VWC is displayed below, where mm is the voltage returned from the soil moisture sensor:
 
 VWC = 100.0 * ((4.82E-10 * mm<sup>3</sup>) - (2.28E-6 * mm<sup>2</sup>) + (3.898E-3 * mm) - 2.154) 
 
