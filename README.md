@@ -229,7 +229,9 @@ Timestamps containing characters - Sometimes, faulty values such as characters w
 
 # Volumetric Soil Moisture Equation
 The equation for calculating volumetric water content (VWC) is displayed below, where mm is the voltage returned from the soil moisture sensor:
+
 VWC = 100.0 * ((4.82E-10 * mm<sup>3</sup>) - (2.28E-6 * mm<sup>2</sup>) + (3.898E-3 * mm) - 2.154) 
+
 # Docker Container setup 
 First install docker:
 - [Linux install](https://docs.docker.com/engine/install/)
