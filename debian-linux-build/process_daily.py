@@ -77,15 +77,12 @@ for fn in os.listdir(station_data_dir):
                 pattern = re.compile(r'\D') #regex for string that contains non-numeric characters
                 #but do not append anything already found above in longbad_time_data
                 nonnumericbad_data = [record['time'] for record in sorted_data if pattern.search(record['time'])]
-                #low voltage data
-                low_voltage_data = [record['time'] for record in sorted_data if float(record['vb']) < 950.0]
-                #high voltage data
-                high_voltage_data = [record['time'] for record in sorted_data if float(record['vb']) > 2000.0]
+                
                 #all of the automated checks in one list of "bad data"
-                automated_bad_list = set(nonnumericbad_data + low_voltage_data + high_voltage_data + length_bad_time_data)
+                automated_bad_list = set(nonnumericbad_data + length_bad_time_data)
                 #create a list without the bad length and non-numeric data 
                 some_cleaned_records = [record for record in sorted_data if record['time'] not in automated_bad_list]
-                #go through the sorted first pass "clean data" and return timestamps greater than current possible Earth time.
+                #go through the sorted first pass "clean data" and return timestamps greaer than current possible Earth time.
                 clock_errors = [record['time'] for record in some_cleaned_records if (result := check_timestamp(record['time'])) is not None]
                 
     
@@ -94,12 +91,6 @@ for fn in os.listdir(station_data_dir):
                     
                 if len(nonnumericbad_data)>0:
                     logging.warning(f'[BAD NON-NUMERIC], {station}, {nonnumericbad_data}')
-                    
-                if len(low_voltage_data)>0:
-                    logging.warning(f'[BAD LOW VOLTAGE < 950.0], {station}, {low_voltage_data}')
-                                     
-                if len(high_voltage_data)>0:
-                    logging.warning(f'[BAD HIGH VOLTAGE > 2000.0], {station}, {high_voltage_data}')
                                      
                 if len(clock_errors)>0:
                     logging.warning(f'[BAD CLOCK TIME], {station}, {clock_errors}')

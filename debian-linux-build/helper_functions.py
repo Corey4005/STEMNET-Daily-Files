@@ -56,15 +56,25 @@ def create_header():
     return columns 
     
 
-def calculate_vwc(mm):
+def calculate_vwc(time, mm, bad_list):
     """
-    Purpose: to calculate volumetric water content from a voltage
+    Purpose: to calculate volumetric water content from a voltage or clean voltage errors
     
     parameters:
+    time - date stamp 
     mm - the voltage to convert to volumetric water content
+    list of bad values for time
     """
     if mm == "-999.99":
         return mm
+    # checking for voltage errors 
+    if float(mm) > 2000.0:
+        bad_list.append((time, mm))
+        return "-999.99"
+    
+    if float(mm) < 950.0:
+        bad_list.append((time, mm))
+        return "-999.99"
     
     else:
         mm = float(mm)
@@ -111,7 +121,14 @@ def process_daily(station, logging, records_to_create, longitude, latitude, name
             
             #check the number of sensors 
             num_sensors = check_depths(depths)
-
+            
+            #bad voltage values > 2000.0 and < 950.0 
+            m0 = []
+            m1 = []
+            m2 = []
+            m3 = []
+            m4 = []
+            
             #b. for each timestamp in the clean records, check for a folder with the year and day.
             for i in clean_timestamps:
                 bad_vwc = {} #log any vwc below zero 
@@ -151,11 +168,11 @@ def process_daily(station, logging, records_to_create, longitude, latitude, name
                 
                     else:
                         os.mkdir(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day))
-                
+                    
                     #now we will check if the file exists, write out the data
                     if os.path.exists(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt'):
                         with open(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt', 'a') as file:
-                            write_row(i, file, num_sensors)
+                            write_row(i, file, num_sensors, m0, m1, m2, m3, m4)
                 
                     else:
                         with open(station_dir +'/'+str(year) + '/'+str(month) + '/' +str(day) + '/' + f'{year}{month}{day}.txt', 'w') as file:
@@ -173,8 +190,23 @@ def process_daily(station, logging, records_to_create, longitude, latitude, name
                             file.write('\n')
                             file.write(create_header()+'\n')
                             #write to the file
-                            write_row(i, file, num_sensors)
-
+                            write_row(i, file, num_sensors, m0, m1, m2, m3, m4)
+            if len(m0) > 0:
+                logging.warning(f'[BAD m0 VOLTAGE > 2000.0 | < 950.0] {station}, {m0}')
+            
+            if len(m1) > 0:
+                logging.warning(f'[BAD m1 VOLTAGE > 2000.0 | < 950.0] {station}, {m1}')
+                
+            if len(m2) > 0:
+                logging.warning(f'[BAD m2 VOLTAGE > 2000.0 | < 950.0] {station}, {m2}')
+                
+            if len(m3) > 0:
+                logging.warning(f'[BAD m3 VOLTAGE > 2000.0 | < 950.0] {station}, {m3}')
+                
+            if len(m4) > 0:
+                logging.warning(f'[BAD m4 VOLTAGE > 2000.0 | < 950.0] {station}, {m4}')
+            
+            
 def update_dictionary_list(station_id, index, list_to_add, dictionary):
     """
     Purpose: 
@@ -228,15 +260,18 @@ def check_depths(depths):
     return len(listdepths)
 
 
-def write_row(timestamp, file, num_sensors):
+def write_row(timestamp, file, num_sensors, m0l, m1l, m2l, m3l, m4l):
     """
     writes the soil moisture and temperature values 
     to the file and makes sure values are real 
     by putting in -999.99 if the depth does not 
-    technically exist 
+    technically exist
+    
+    m0 - m4 parameters == lists to collect bad voltage data in
     """
     #get the data from the dictionary for time
     time = timestamp.get('time')
+    formated_time = time.strftime("%Y-%m-%d %H:%M:%S%f%z")
 
     if num_sensors < 1:
         #if sensors are less than 1, then there are no depth observations
@@ -255,7 +290,7 @@ def write_row(timestamp, file, num_sensors):
     
     elif num_sensors == 1:
         #one soil moisture and 
-        m0 = calculate_vwc(timestamp.get('m0'))
+        m0 = calculate_vwc(formated_time, timestamp.get('m0'), m0l)
         #one temperature obs 
         t0 = timestamp.get('t0')
 
@@ -272,8 +307,8 @@ def write_row(timestamp, file, num_sensors):
 
     elif num_sensors == 2:
         #2 sm obs and 
-        m0 = calculate_vwc(timestamp.get('m0'))
-        m1 = calculate_vwc(timestamp.get('m1'))
+        m0 = calculate_vwc(formated_time, timestamp.get('m0'), m0l)
+        m1 = calculate_vwc(formated_time, timestamp.get('m1'), m1l)
         #2 temp obs
         t0 = timestamp.get('t0')
         t1 = timestamp.get('t1')
@@ -289,9 +324,9 @@ def write_row(timestamp, file, num_sensors):
 
     elif num_sensors == 3:
         # 3 sm obs 
-        m0 = calculate_vwc(timestamp.get('m0'))
-        m1 = calculate_vwc(timestamp.get('m1'))
-        m2 = calculate_vwc(timestamp.get('m2'))
+        m0 = calculate_vwc(formated_time, timestamp.get('m0'), m0l)
+        m1 = calculate_vwc(formated_time, timestamp.get('m1'), m1l)
+        m2 = calculate_vwc(formated_time, timestamp.get('m2'), m2l)
         # 3 temp obs
         t0 = timestamp.get('t0')
         t1 = timestamp.get('t1')
@@ -305,10 +340,10 @@ def write_row(timestamp, file, num_sensors):
     
     elif num_sensors == 4: 
         #4 sm obs and 
-        m0 = calculate_vwc(timestamp.get('m0'))
-        m1 = calculate_vwc(timestamp.get('m1'))
-        m2 = calculate_vwc(timestamp.get('m2'))
-        m3 = calculate_vwc(timestamp.get('m3'))
+        m0 = calculate_vwc(formated_time, timestamp.get('m0'), m0l)
+        m1 = calculate_vwc(formated_time, timestamp.get('m1'), m1l)
+        m2 = calculate_vwc(formated_time, timestamp.get('m2'), m2l)
+        m3 = calculate_vwc(formated_time, timestamp.get('m3'), m3l)
 
         # 4 temp obs
         t0 = timestamp.get('t0')
@@ -323,11 +358,11 @@ def write_row(timestamp, file, num_sensors):
     elif num_sensors == 5:
         #get everything at all depths
         #5 sm obs and 
-        m0 = calculate_vwc(timestamp.get('m0'))
-        m1 = calculate_vwc(timestamp.get('m1'))
-        m2 = calculate_vwc(timestamp.get('m2'))
-        m3 = calculate_vwc(timestamp.get('m3'))
-        m4 = calculate_vwc(timestamp.get('m4'))
+        m0 = calculate_vwc(formated_time, timestamp.get('m0'), m0l)
+        m1 = calculate_vwc(formated_time, timestamp.get('m1'), m1l)
+        m2 = calculate_vwc(formated_time, timestamp.get('m2'), m2l)
+        m3 = calculate_vwc(formated_time, timestamp.get('m3'), m3l)
+        m4 = calculate_vwc(formated_time, timestamp.get('m4'), m4l)
         # 5 temp obs
         t0 = timestamp.get('t0')
         t1 = timestamp.get('t1')
