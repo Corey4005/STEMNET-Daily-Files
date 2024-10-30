@@ -76,12 +76,18 @@ for fn in os.listdir(station_data_dir):
                 #get the bad data that has any other character and not already in longbad_time_data
                 pattern = re.compile(r'\D') #regex for string that contains non-numeric characters
                 #but do not append anything already found above in longbad_time_data
-                nonnumericbad_data = [record['time'] for record in sorted_data if pattern.search(record['time']) and record['time'] not in length_bad_time_data]
-                #go through and find the index with matching records
-                #all bad records to log and 
-                bad_length_and_nonnumeric = length_bad_time_data + nonnumericbad_data
-                #create a list without the bad length data 
-                some_cleaned_records = [record for record in sorted_data if record['time'] not in bad_length_and_nonnumeric]
+                nonnumericbad_data = [record['time'] for record in sorted_data if pattern.search(record['time'])]
+                #low voltage data
+                low_voltage_data = [record['time'] for record in sorted_data if float(record['vb']) < 950.0]
+                #high voltage data
+                high_voltage_data = [record['time'] for record in sorted_data if float(record['vb']) > 2000.0]
+                #all of the automated checks in one list of "bad data"
+                automated_bad_list = set(nonnumericbad_data + low_voltage_data + high_voltage_data + length_bad_time_data)
+                #create a list without the bad length and non-numeric data 
+                some_cleaned_records = [record for record in sorted_data if record['time'] not in automated_bad_list]
+                #go through the sorted first pass "clean data" and return timestamps greater than current possible Earth time.
+                clock_errors = [record['time'] for record in some_cleaned_records if (result := check_timestamp(record['time'])) is not None]
+                
     
                 if len(length_bad_time_data)>0:
                     logging.warning(f'[BAD LENGTH], {station}, {length_bad_time_data}')
@@ -89,15 +95,18 @@ for fn in os.listdir(station_data_dir):
                 if len(nonnumericbad_data)>0:
                     logging.warning(f'[BAD NON-NUMERIC], {station}, {nonnumericbad_data}')
                     
-                #go through the sorted data and return timestamps greater than current time.
-                clock_errors = [record['time'] for record in some_cleaned_records if (result := check_timestamp(record['time'])) is not None]
-                
-                #creating a list of all bad timestamps
-                all_bad = length_bad_time_data + nonnumericbad_data + clock_errors
-                
+                if len(low_voltage_data)>0:
+                    logging.warning(f'[BAD LOW VOLTAGE < 950.0], {station}, {low_voltage_data}')
+                                     
+                if len(high_voltage_data)>0:
+                    logging.warning(f'[BAD HIGH VOLTAGE > 2000.0], {station}, {high_voltage_data}')
+                                     
                 if len(clock_errors)>0:
                     logging.warning(f'[BAD CLOCK TIME], {station}, {clock_errors}')
-                    
+                
+                #creating a list of all bad timestamps
+                all_bad = set(list(automated_bad_list) + clock_errors)
+                
                 #create a final clean records list that does not include errors 
                 cleaned_records = [record for record in sorted_data if record['time'] not in all_bad]
                 
